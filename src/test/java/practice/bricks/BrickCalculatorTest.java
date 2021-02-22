@@ -1,5 +1,6 @@
 package practice.bricks;
 
+import org.junit.Assert;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -20,6 +21,6 @@ public class BrickCalculatorTest {
             "4, 3000, 15003, true"
     })
     public void testEnoughBricks(int small, int big, int goal, boolean enough) {
-        assert brickCalculator.enoughBricks(small, big, goal) == enough;
+        Assert.assertEquals(brickCalculator.enoughBricks(small, big, goal), enough);
     }
 }
