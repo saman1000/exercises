@@ -11,6 +11,8 @@ public class BrickCalculatorTest {
     @ParameterizedTest
     @CsvSource({
             "3, 1, 8, true",
+            "3, 0, 3, true",
+            "0, 2, 10, true",
             "3, 1, 9, false",
             "3, 2, 10, true",
             "3, 6, 22, true",
