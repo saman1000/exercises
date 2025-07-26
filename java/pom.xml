@@ -7,7 +7,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.0.2.RELEASE</version>
 	</parent>
-	<artifactId>exercises</artifactId>
+	<artifactId>practice</artifactId>
 	<groupId>org.exercise</groupId>
 	<name>Spring Boot Tomcat Sample</name>
 	<description>Spring Boot Tomcat Sample</description>
