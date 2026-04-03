@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 public class PairingService {
 
-    /**
-     *
-     * 9, [10, 20, 20, 10, 10, 30, 50, 10, 20] should return 3
-     */
+//    /**
+//     *
+//     * 9, [10, 20, 20, 10, 10, 30, 50, 10, 20] should return 3
+//     */
 //    public int sockMerchantnumberOfPairsOldJava(int totalNumbers, List<Integer> listOfNumbers) {
 //        // Write your code here
 //        int numberOfPairs = 0;
