@@ -1,8 +1,6 @@
 package practice.numbers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -80,9 +78,21 @@ public class NumbersService {
      * [1 2 3 5 6], 5 --> 2 3
      *
      */
-    public List<Integer> whatFlavors(List<Integer> cost, int money) {
-        // Write your code here
-        return null;
+    public Optional<List<Integer>> whatFlavors(List<Integer> cost, int money) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < cost.size(); i++) {
+            int current = cost.get(i);
+            int complement = money - current;
+
+            if (map.containsKey(complement)) {
+                return Optional.of(Arrays.asList(map.get(complement) + 1, i + 1));
+            }
+
+            map.put(current, i);
+        }
+
+        return Optional.empty();
     }
 
 

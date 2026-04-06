@@ -30,13 +30,17 @@ class NumbersServiceTest {
     @ParameterizedTest
     @MethodSource("flavorsStream")
     public void testwhatFlavors(List<Integer> cost, int money, List<Integer> expectedFlavors) {
-        List<Integer> actualFlavorsd = numbersService.whatFlavors(cost, money);
-        Assertions.assertEquals(expectedFlavors, actualFlavorsd);
+        Assertions.assertEquals(expectedFlavors, numbersService.whatFlavors(cost, money).orElse(null));
     }
 
     private static Stream<Arguments> flavorsStream() {
         return Stream.of(
-                Arguments.of(List.of(1, 2, 3, 5, 6), 5, List.of(2, 3))
+                Arguments.of(List.of(1, 2, 3, 5, 6), 5, List.of(2, 3)),
+                Arguments.of(List.of(1, 4, 5, 3, 2), 4, List.of(1, 4)),
+                Arguments.of(List.of(2, 2, 4, 3), 4, List.of(1, 2)),
+                Arguments.of(List.of(1, 3, 4, 6, 7, 9), 9, List.of(2, 4)),
+                Arguments.of(List.of(1, 3, 4, 4, 6, 8), 8, List.of(3, 4)),
+                Arguments.of(List.of(1, 2), 3, List.of(1, 2))
         );
     }
 
