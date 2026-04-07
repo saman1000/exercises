@@ -61,4 +61,21 @@ class NumbersServiceTest {
                 Arguments.of("aabaab", "aabaa", List.of(5))
         );
     }
+
+    @ParameterizedTest
+    @MethodSource("integerList")
+    public void testCalculateMedians(List<Integer> values, int medianCount, List<Float> expectedMedians) {
+        Assertions.assertEquals(expectedMedians, numbersService.calculateMedians(values, medianCount));
+        Assertions.assertEquals(expectedMedians, numbersService.medianSlidingWindow(
+                values.stream().mapToInt(x -> (int) x).toArray(),
+                medianCount));
+    }
+
+    private static Stream<Arguments> integerList() {
+        return Stream.of(
+                Arguments.of(List.of(1, 2, 3, 4), 3, List.of(2f, 3f)),
+                Arguments.of(List.of(2, 3, 4, 2, 3, 6, 8, 4, 5), 3, List.of(3f, 3f, 3f, 3f, 6f, 6f, 5f)),
+                Arguments.of(List.of(2, 3, 4, 2, 3, 6, 8, 4, 5), 4, List.of(2.5f, 3f, 3.5f, 4.5f, 5f, 5.5f))
+        );
+    }
 }

@@ -150,5 +150,127 @@ public class NumbersService {
         return List.of(-1);
     }
 
+    public int alternate(String s) {
+        Set<Character> unique = s.chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.toSet());
 
+        int maxLength = 0;
+
+        List<Character> chars = new ArrayList<>(unique);
+
+        for (int i = 0; i < chars.size(); i++) {
+            for (int j = i + 1; j < chars.size(); j++) {
+                char c1 = chars.get(i);
+                char c2 = chars.get(j);
+
+                String filtered = s.chars()
+                        .mapToObj(c -> (char) c)
+                        .filter(c -> c == c1 || c == c2)
+                        .map(String::valueOf)
+                        .collect(Collectors.joining());
+
+                if (isValidAlternating(filtered)) {
+                    maxLength = Math.max(maxLength, filtered.length());
+                }
+            }
+        }
+
+        return maxLength;
+    }
+
+    private boolean isValidAlternating(String s) {
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == s.charAt(i - 1)) {
+                return false;
+            }
+        }
+        return s.length() > 1;
+    }
+
+    /**
+     *
+     * @param values list of integers
+     * @param medianCount number of consecutive integers for which we need the median for
+     * @return List of median values. An empty list if length of values is less than medianCount
+     */
+    public List<Float> calculateMedians(List<Integer> values, int medianCount) {
+        List<Float> medianList = new LinkedList<>();
+
+        List<Integer> tmpList;
+        int lowerMedianIndex1 = medianCount / 2;
+        int higherMedianIndex2 = lowerMedianIndex1 - 1;
+        for (int index = 0; index <= values.size() - medianCount; index++) {
+            tmpList = new ArrayList<>(values.subList(index, index + medianCount));
+            Collections.sort(tmpList);
+            if (medianCount % 2 == 0) {
+                medianList.add(
+                        (tmpList.get(lowerMedianIndex1) + tmpList.get(higherMedianIndex2)) / 2f
+                );
+            } else {
+                medianList.add((float) tmpList.get(lowerMedianIndex1));
+            }
+        }
+
+        return medianList;
+    }
+
+    public List<Float> medianSlidingWindow(int[] nums, int k) {
+        List<Float> result = new ArrayList<>();
+
+        PriorityQueue<Integer> low = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> high = new PriorityQueue<>();
+
+        Map<Integer, Integer> delayed = new HashMap<>();
+        int lowSize = 0, highSize = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (low.isEmpty() || nums[i] <= low.peek()) {
+                low.offer(nums[i]);
+                lowSize++;
+            } else {
+                high.offer(nums[i]);
+                highSize++;
+            }
+
+            // balance
+            if (lowSize > highSize + 1) {
+                high.offer(low.poll());
+                lowSize--;
+                highSize++;
+            } else if (lowSize < highSize) {
+                low.offer(high.poll());
+                lowSize++;
+                highSize--;
+            }
+
+            if (i >= k - 1) {
+                // median
+                if (k % 2 == 0) {
+                    result.add((low.peek() + high.peek()) / 2f);
+                } else {
+                    result.add((float) low.peek());
+                }
+
+                int toRemove = nums[i - k + 1];
+                delayed.put(toRemove, delayed.getOrDefault(toRemove, 0) + 1);
+
+                if (toRemove <= low.peek()) lowSize--;
+                else highSize--;
+
+                // cleanup heaps
+                while (!low.isEmpty() && delayed.getOrDefault(low.peek(), 0) > 0) {
+                    delayed.put(low.peek(), delayed.get(low.peek()) - 1);
+                    low.poll();
+                }
+
+                while (!high.isEmpty() && delayed.getOrDefault(high.peek(), 0) > 0) {
+                    delayed.put(high.peek(), delayed.get(high.peek()) - 1);
+                    high.poll();
+                }
+            }
+        }
+
+        return result;
+    }
 }
