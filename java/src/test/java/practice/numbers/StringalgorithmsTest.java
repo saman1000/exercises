@@ -3,7 +3,7 @@ package practice.numbers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import practice.StringAlgorithms;
+import practice.strings.StringAlgorithms;
 
 class StringalgorithmsTest {
 
